@@ -75,7 +75,8 @@ class WSHandler(tornado.websocket.WebSocketHandler):
   def open(self):
     print 'New connection was opened'
     clients.append(self)
-    self.write_message("Welcome to my websocket!")
+    #TODO: Check the database for undonated coins...
+    #self.write_message("Welcome to my websocket!")
  
   def on_message(self, message):
     print 'Incoming message:', message
