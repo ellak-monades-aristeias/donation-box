@@ -1,6 +1,6 @@
 #!/usr/bin/python
 ####################################################
-# Name: Donation Box deamon 
+# Name: Donation Box Serial deamon 
 #
 # Description:
 # Listens to serial port and writes to a DB table the currency and value received
@@ -14,12 +14,17 @@ import threading
 import time
 import serial 
 import MySQLdb
+import json
+
+json_data=open('/home/pi/donation-box/config.json')
+config = json.load(json_data)
+json_data.close()
 
 last_received = ''
 
 def WriteToDB(curr, value):
-  #establish connection to MySQL. You'll have to change this for your database.
-  dbConn = MySQLdb.connect("localhost","root","c0mm0ns","wordpress") or die ("could not connect to database")
+  #establish connection to MySQL. You'll have to change this for your database in the config.json.
+  dbConn = MySQLdb.connect(config["Database"]["server"],config["Database"]["username"],config["Database"]["password"],config["Database"]["name"]) or die ("could not connect to database")
   try:
     cursor = dbConn.cursor()
     print "Writing to DB Currency: %s Value: %s" % (curr, value)
@@ -35,7 +40,8 @@ def receiving(ser):
   global last_received
   buffer = ''
   while True:
-    buffer = ser.readline(ser.inWaiting())
+    #print "waiting..."
+    buffer = ser.readline()
     if buffer <> '':
       print "Received: %s" % buffer
       curr = buffer[0:3]
@@ -48,10 +54,13 @@ def receiving(ser):
 class SerialData(object):
   def __init__(self, init=50):
     try:
-      self.ser = ser = serial.Serial('/dev/pts/1', 9600)
+      #check config.json file for the settings of the serial port
+      #self.ser = ser = serial.Serial("/dev/ttyUSB0", "9600")
+      self.ser = ser = serial.Serial(config["Serial"]["dev"], config["Serial"]["rate"]) 
     except serial.serialutil.SerialException:
       #no serial connection
       self.ser = None
+      print "Serial Connection failed"
     else:
       threading.Thread(target=receiving, args=(self.ser,)).start()
 
@@ -70,7 +79,7 @@ class SerialData(object):
   def __del__(self):
     if self.ser:
       self.ser.close()
- 
+
 if __name__=='__main__':
   s = SerialData()
   for i in range(500):
