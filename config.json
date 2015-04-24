@@ -1,0 +1,47 @@
+{
+  "General": {
+    "currency": "EUR",
+    "Log": true,
+    "Mode": "Debug",
+    "_othermodes": "Test,Production"
+  },
+  "Serial": {
+    "dev": "/dev/ttyUSB0",
+    "rate": 9600
+  },
+  "Database": {
+    "server":"localhost",
+    "name" : "wordpress",
+    "username":"root",
+    "password":"c0mm0ns"
+  },
+  "WebSockets": {
+    "server":"ws://donationbox.pi:8888/ws"
+  },
+  "Protocol":{
+    
+  },
+  "UI": {
+    "ShowPopUps": false,
+    "Mode": "Test",
+    "_othermodes": "Debug,Production"
+  },
+  "Files": {
+    "Services": {
+      "Serial2DB.py": "home/pi/donationbox/",
+      "wsServer.py": "home/pi/donationbox/",
+      "donationbox.sh": "home/pi/donationbox/"
+    },
+    "ProgressBar": {
+      "pro-bars.min.css":"",
+      "pro-bars.min.js":"",
+      "backbone.js":"",      
+      "appear.min.js":"",
+      "jquery-ui.min.js":""
+    },
+    "PopUp": {
+      "jquery.min.js":"",
+      "jquery.bpopup.min.js":"" 
+    }
+  }
+}
