@@ -493,7 +493,7 @@ body {
 ----------------------------------------------- */
 body.has-main-sidebar #main,
 body.has-main-sidebar .container {
-  max-width: 1200px;
+  max-width: 1270px;
 }
 body.has-main-sidebar #primary {
   float: left;
@@ -1229,6 +1229,7 @@ article.sticky {
   -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.175);
   box-shadow: 0 1px 3px rgba(0,0,0,0.175);
   padding: 25px;*/
+  font-size: 20px;
 }
 #secondary .widget {
   margin-bottom: 40px;
@@ -1354,7 +1355,7 @@ article.entry .post-text .entry-title a {
 }
 article.entry .entry-content {
   color: #716f6c;
-  font-size: 16px;
+  font-size: 22px;
   line-height: 1.75em;
 }
 article.entry .entry-content strong {

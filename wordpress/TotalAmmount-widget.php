@@ -42,4 +42,4 @@ $conn->close();
 </div>
 <div id="currency">&nbsp;EUR</div>
 </div>
-<div style="display: block;margin-bottom:15px;">RAISED OF <?php $goal = get_post_custom_values( 'Goal' ); print $goal[0]; ?>&euro; GOAL</div>
+<div style="display: block;">RAISED OF <?php $goal = get_post_custom_values( 'Goal' ); print $goal[0]; ?>&euro; GOAL</div>

@@ -14,7 +14,9 @@
   <script src="/config.js"></script>
   <script src="/jquery.min.js"></script>
   <script src="/jquery.bpopup.min.js"></script>
+  <script src="/video.js"> </script>
   <link href="/pro-bars.min.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="/video-js.css" rel="stylesheet" />
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<title><?php wp_title( '|', true, 'right' ); ?></title>
 	<!--<link rel="profile" href="http://gmpg.org/xfn/11" />
@@ -88,6 +90,7 @@ var ShowPopUps = false;
         percent = (sum/goal)*100;
         document.getElementById('probar').setAttribute("data-pro-bar-percent", String(percent));
         document.getElementById('probar').style.width = String(percent)+"%";
+        $('#percentvalue').html(parseFloat(percent).toFixed(2)+"%");        
         }
         SetProgressBar();
         var logger = function(msg){
@@ -184,10 +187,13 @@ $('#donationbutton').attr("disabled", "disabled");
         };
         ws.onclose = function(evt) {
           $("#logger").text("Connection was closed...");
-          $("#thebutton #msg").prop('disabled', true);
+          //Disable Donation Button and make it red
+          $('#donationbutton').attr("disabled", "disabled");          
+          $('#donationbutton').css("color", "#CC2E2E");
         };
         ws.onopen = function(evt) {
            $("#logger").text("Opening socket...");
+           $('#donationbutton').css("color", "#2ECC71");           
         };
  
         $("#msg").keypress(function(event) {
