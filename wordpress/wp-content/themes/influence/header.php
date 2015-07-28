@@ -76,10 +76,23 @@ article.entry .entry-content {
 padding-left: 20px;
 padding-right: 20px;
 }
+#loading {
+  position:absolute;
+  margin-top: 10%;
+  margin-left:30%;
+  z-index: 99;
+  display: none;
+}
 </style>
 <script>
 var ShowPopUps = false;
-//alert(config['Database']['server'])
+
+$(document).ready(function(){
+    $("a").click(function(){
+        $('#loading').show();
+    });
+});
+
       $(function(){
         var ws;
         var donationdata;
@@ -238,6 +251,7 @@ $('#donationbutton').attr("disabled", "disabled");
 </head>
 
 <body <?php body_class(); ?>>
+<div id="loading"><img src="/loading.gif" /></div>
 <!--
 <div id="page" class="hfeed site">
 
