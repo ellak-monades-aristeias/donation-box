@@ -1,7 +1,7 @@
 donation-box
 ============
 
-==Description==
+##Description
 An open-source screen enabled donation box
 
 The software has three items. 
