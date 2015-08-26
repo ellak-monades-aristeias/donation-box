@@ -11,7 +11,7 @@
   },
   "Database": {
     "server":"localhost",
-    "name" : "wordpress",
+    "name" : "wp-donationbox",
     "username":"root",
     "password":"c0mm0ns"
   },
@@ -28,9 +28,9 @@
   },
   "Files": {
     "Services": {
-      "Serial2DB.py": "home/pi/donationbox/",
-      "wsServer.py": "home/pi/donationbox/",
-      "donationbox.sh": "home/pi/donationbox/"
+      "Serial2DB.py": "home/pi/donation-box/",
+      "wsServer.py": "home/pi/donation-box/",
+      "donationbox.sh": "home/pi/donation-box/"
     },
     "ProgressBar": {
       "pro-bars.min.css":"",
