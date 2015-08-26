@@ -22,11 +22,15 @@ import threading
 import datetime
 import decimal
 import json
+import logging
+from time import gmtime, strftime
 
-json_data=open('/home/pi/donation-box/config.json')
+#Init
+json_data=open('config.json')
 config = json.load(json_data)
 json_data.close()
-
+logging.basicConfig(filename='wsServer.log', level=logging.DEBUG, format='%(levelname)s %(asctime)s: %(message)s')
+logging.debug('wsServer started')
 #wait at start up for mySQL to load
 time.sleep(60)
 
@@ -61,14 +65,14 @@ def QueryDBonStart():
       #TODO: What should happen if one coin is of differenct currency?
       curr = currency
       coin += value
-      print 'DonationID: '+repr(donationid)+' Currency: '+repr(curr)+' Value: '+repr(coin)
+      logging.debug('DonationID: '+repr(donationid)+' Currency: '+repr(curr)+' Value: '+repr(coin))
 
     if coin != 0:
       # Send value and currency to web socket client
       send_donation(coin,curr)        
     cursor.close();  #close the cursor
   except MySQLdb.IntegrityError:
-    print "failed to fetch data"
+    logging.error('failed to fetch data')
   finally:
     cursor.close()  #close just incase it failed
   
@@ -83,13 +87,12 @@ def send_donation(c, msg):
 
 
 def send_project_total(pid, msg):
-  print "PID|"+str(pid)+"|TOTAL|"+msg
+  logging.debug('PID|'+str(pid)+'|TOTAL|'+msg)
   for client in clients:
     client.write_message("PID|"+str(pid)+"|TOTAL|"+msg)
 
 
 def QueryDB():
-  from time import gmtime, strftime
   LastTime = strftime("%Y-%m-%d %H:%M:%S", gmtime());
   while True:
     dbConn = MySQLdb.connect(dbserver,dbuser,dbpass,dbname) or die ("could not connect to database")
@@ -115,7 +118,7 @@ def QueryDB():
       #print data
       cursor.close();  #close the cursor
     except MySQLdb.IntegrityError:
-      print "failed to fetch data"
+      logging.error('failed to fetch data')
     finally:
       cursor.close()  #close just incase it failed
     time.sleep(0.5);
@@ -125,7 +128,7 @@ def InsertDonation(currency,value,name,email,public, prname, prid):
   from time import gmtime, strftime
   timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime());
   dbConn = MySQLdb.connect(dbserver,dbuser,dbpass,dbname) or die ("could not connect to database")
-  
+  logging.debug('Insert donation to DB')
   dbConn.set_character_set('utf8')
   
   cursor = dbConn.cursor()
@@ -134,7 +137,7 @@ def InsertDonation(currency,value,name,email,public, prname, prid):
   cursor.execute('SET CHARACTER SET utf8;')
   cursor.execute('SET character_set_connection=utf8;')
   
-  print 'Name:'+name+' Email:'+email+' public:'+public+' Project Name:'+prname+' ProjectID:'+prid+' Currency:'+currency+' Value:'+value
+  logging.debug('Name:'+name+' Email:'+email+' public:'+public+' Project Name:'+prname+' ProjectID:'+prid+' Currency:'+currency+' Value:'+value)
   if (public == 'false'):
     public = 0
   else:
@@ -148,17 +151,19 @@ def InsertDonation(currency,value,name,email,public, prname, prid):
     donationid = cursor.lastrowid
     #Update coins inserted with donation ID
     sql = "UPDATE coinacceptor SET donationid=%s WHERE donationid=-1"
+    logging.debug('RUN SQL: UPDATE coinacceptor SET donationid=%s WHERE donationid=-1', donationid)
     cursor.execute(sql,donationid)
     dbConn.commit()
     cursor.close()
   except MySQLdb.IntegrityError:
-    print "failed to fetch data"
+    logging.error('failed to fetch data')
     for client in clients:
       client.write_message("ERROR")
   finally:
     cursor.close()  #close just incase it failed
     for client in clients:
       client.write_message("SUCCESS")
+      logging.info('Data written successfuly')
     
     
 def GetProjectTotal(pid):
@@ -169,21 +174,23 @@ def GetProjectTotal(pid):
   
   try:
     sql = "SELECT SUM(Ammount) FROM donations WHERE ProjectID = %s";
+    logging.debug('RUN SQL: %s', sql)
     cursor.execute(sql,pid);
     data = cursor.fetchone();
     for (amount) in cursor:
       value = amount
 
     cursor.close();  #close the cursor
+    logging.debug('Get project total amount donated: %d', value)
     return value    
   except MySQLdb.IntegrityError:
-    print "failed to fetch data"
+    logging.error('failed to fetch data')
   finally:
     cursor.close()
 
 
 def processdonation(msg):
-  print msg
+  logging.debug('Process donation: %s', msg)
   values = msg.split('|')
   name = values[0]
   email = values[1]
@@ -200,8 +207,8 @@ def processdonation(msg):
 
 
 def processmsg(msg):
+  logging.debug('Process message: %s', msg)
   values = msg.split('|')
-  print msg
   if (values[0] == 'REQPROJECTTOTAL'):
     s = GetProjectTotal(values[1])
     send_project_total(values[1],s)
@@ -214,7 +221,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     return True
 
   def open(self):
-    print 'New connection was opened'
+    logging.info('New connection was opened')
     clients.append(self)
     QueryDBonStart()
  
@@ -222,7 +229,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     processmsg(message)
  
   def on_close(self):
-    print 'Connection was closed...'
+    logging.info('Connection was closed...')
     clients.remove(self)
 
   t = threading.Thread(target=QueryDB)
