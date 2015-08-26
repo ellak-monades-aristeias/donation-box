@@ -21,7 +21,7 @@ display: inline;
 </style>
 <div class="totalamountwidget"><div id="totalamount" >
 <?php 
-$conn = new mysqli("localhost", "root", "c0mm0ns", "wordpress");
+$conn = new mysqli("localhost", "root", "c0mm0ns", "wp-donationbox");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
