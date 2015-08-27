@@ -15,7 +15,10 @@ import time
 import serial 
 import MySQLdb
 import json
+import logging
 
+logging.basicConfig(filename='Serial2DB.log', level=logging.DEBUG, format='%(levelname)s %(asctime)s: %(message)s')
+logging.debug('Serial2DB started')
 json_data=open('/home/pi/donation-box/config.json')
 config = json.load(json_data)
 json_data.close()
@@ -27,12 +30,12 @@ def WriteToDB(curr, value):
   dbConn = MySQLdb.connect(config["Database"]["server"],config["Database"]["username"],config["Database"]["password"],config["Database"]["name"]) or die ("could not connect to database")
   try:
     cursor = dbConn.cursor()
-    print "Writing to DB Currency: %s Value: %s" % (curr, value)
+    logging.info('Writing to DB Currency: %s Value: %s', curr, value)
     cursor.execute("INSERT INTO coinacceptor (Currency,Value) VALUES (%s,%s)", (curr,value))
     dbConn.commit() #commit the insert
     cursor.close()  #close the cursor
   except MySQLdb.IntegrityError:
-    print "failed to insert data to DB"
+    logging.error('failed to insert data to DB')
   finally:
     cursor.close()  #close just incase it failed
 
@@ -43,7 +46,7 @@ def receiving(ser):
     #print "waiting..."
     buffer = ser.readline()
     if buffer <> '':
-      print "Received: %s" % buffer
+      logging.info('Received: %s', buffer)
       curr = buffer[0:3]
       value = buffer[3:]
       WriteToDB(curr, value)
@@ -60,7 +63,7 @@ class SerialData(object):
     except serial.serialutil.SerialException:
       #no serial connection
       self.ser = None
-      print "Serial Connection failed"
+      logging.error('Serial Connection failed')
     else:
       threading.Thread(target=receiving, args=(self.ser,)).start()
 
@@ -72,7 +75,7 @@ class SerialData(object):
       try:
         return raw_line.strip()
       except ValueError:
-        print 'Incorrect data',raw_line
+        logging.error('Incorrect data: %s',raw_line)
         time.sleep(.005)
     return 0.
 
