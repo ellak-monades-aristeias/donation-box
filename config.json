@@ -13,13 +13,21 @@
     "server":"localhost",
     "name" : "wp-donationbox",
     "username":"root",
-    "password":"c0mm0ns"
+    "password":""
   },
   "WebSockets": {
     "server":"ws://donationbox.pi:8888/ws"
   },
   "Protocol":{
     
+  },
+  "Printer": {
+    "enabled": true,
+    "dev": "ttyAMA0",
+    "baudrate": 9600,
+    "heattime": 255,
+    "timeout": 5,
+    "feedlines": 3
   },
   "UI": {
     "ShowPopUps": false,

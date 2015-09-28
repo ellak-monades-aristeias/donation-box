@@ -11,6 +11,7 @@
 # License: GNU GPL v3.0
 ####################################################
 
+from __future__ import print_function
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
@@ -24,6 +25,8 @@ import decimal
 import json
 import logging
 from time import gmtime, strftime
+from Adafruit_Thermal import *
+
 
 #Init
 json_data=open('config.json')
@@ -43,6 +46,39 @@ dbuser = config["Database"]["username"]
 dbpass = config["Database"]["password"]
 dbname = config["Database"]["name"]
 
+pr_enabled = config["Printer"]["enabled"]
+pr_dev = config["Printer"]["dev"]
+pr_baudrate = config["Printer"]["baudrate"]
+pr_timeout = config["Printer"]["timeout"]
+pr_feedlines = config["Printer"]["feedlines"]
+pr_heattime = config["Printer"]["heattime"]
+
+if pr_enabled == true:
+  printer = Adafruit_Thermal(pr_dev, pr_baudrate, timeout=pr_timeout)
+
+def Th_print(currency,value,name,email,prname):
+  if (pr_enabled == 'false'):
+    logging.debug('Thermal printer is disabled')
+    return
+    
+  printer.begin(pr_heattime) 
+  logging.debug('Printing donation to thermal printer')  
+  printer.boldOn()
+  printer.println('THANK YOU')
+  printer.println(name)
+  printer.boldOff()
+  printer.print(value)
+  printer.print(currency)
+  printer.print(' to ')
+  printer.print(prname)
+  printer.println(' project')
+  printer.println('Your donation registered')
+  if email != '':
+    printer.println('with '.email)
+     
+  printer.feed(pr_feedlines)
+
+  
 def QueryDBonStart():	
   global dbserver
   global dbname
@@ -78,6 +114,7 @@ def QueryDBonStart():
   
   
 def send_donation(c, msg):
+  logging.debug('SEND: %s %s',str(c),msg)
   for client in clients:
     client.write_message(str(c)+msg)
   global coin
@@ -101,6 +138,7 @@ def QueryDB():
     try:
       #print "Query DB...";
       sql = "SELECT timeinserted, value, currency FROM coinacceptor WHERE timeinserted > %s ORDER BY timeinserted DESC";
+      logging.debug('RUS SQL: SELECT timeinserted, value, currency FROM coinacceptor WHERE timeinserted > %s ORDER BY timeinserted DESC', LastTime)
       cursor.execute(sql,LastTime);
 
       data = cursor.fetchone();
@@ -110,9 +148,7 @@ def QueryDB():
         coin = value
         global curr
         curr = currency
-        print LastTime
-        print coin
-        print curr
+        logging.debug('%d %s', coin, curr)
         if coin != 0:
           send_donation(coin,curr)
       #print data
@@ -174,7 +210,7 @@ def GetProjectTotal(pid):
   
   try:
     sql = "SELECT SUM(Ammount) FROM donations WHERE ProjectID = %s";
-    logging.debug('RUN SQL: %s', sql)
+    logging.debug('RUN SQL: SELECT SUM(Ammount) FROM donations WHERE ProjectID = %s', pid)
     cursor.execute(sql,pid);
     data = cursor.fetchone();
     for (amount) in cursor:
@@ -196,7 +232,9 @@ def processdonation(msg):
   email = values[1]
   public = values[2]
   prname = values[3]
-  prid = values[4]
+  projectdetails = values[4].split('?') #contains language info (e.g. 81?lang=el)
+  prid = projectdetails[0]
+  lang = projectdetails[1]  #lang support for printer limited to ASCII
   dondata = values[5]
   l = len(dondata)
   donvalue = dondata[0:l-3]
@@ -204,7 +242,7 @@ def processdonation(msg):
   #print donvalue
   #print doncurr
   InsertDonation(doncurr,donvalue,name,email,public,prname,prid)
-
+  Th_print(doncurr,donvalue,name,email,prname)
 
 def processmsg(msg):
   logging.debug('Process message: %s', msg)

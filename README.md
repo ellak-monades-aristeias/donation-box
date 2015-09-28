@@ -31,6 +31,7 @@ The code for the Arduino to read the coin acceptor will be uploaded soon...
 * Set up WiFi access point
 * Set up IP forwarding
 * Install python tornado
+* [Printer] sudo apt-get install python-serial python-imaging python-unidecode
 * Copy repository and start Serial2DB & wsServer.
 
 * Install lighthttpd
