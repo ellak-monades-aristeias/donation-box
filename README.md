@@ -3,6 +3,15 @@ donation-box
 
 Note: The process of setting up your own donation box is still under heavy development and the documentation not complete or detailed enough. If you are still interested in setting it up and can't wait don't hesitate to contact us.
 
+##Idea
+The last few years, especially in Greece, many initiatives have tried to do things in many different fields of interest. Many times these teams sooner or later will need some funding in order to fulfill their goals. Some of them do events, some run online crowdfunding campains and also find several new ways to cover their needs.
+From our experience the online crowdfunding, most of the time, does not work as expected. People are hesitating to put all their details online, especially if they are opting to donate a small amount, or some may not have a debit or credit card to do that. While most of these people will prefer to give their donations in person or in a physical box somewhere. Many donation boxes of course already exist usually managed by NGOs that are put in public places, shops etc. The problem with these boxes is that they do not offer information and transparency. What is the organization? How much money they need? 
+Also this way is not being used by teams that are focused on a specific project, because of the lack to inform the people of what the project is.
+So to try and solve the above problems we came up with the idea of a screen enabled donation box.
+The box can run several projects/causes that are asking for donations. It provides information (text, images, video) for each project. It provides real-time information about the progress (donations accepted, donations needed, finishing date). Donations are recorded and if users choose can be registered to keep in touch with the project in which they donated.
+The box also can issue receipts for each donation.
+Connecting several donation boxes to a cloud service can add more value to each box and all the projects that are running. A project can be created online and activated in several boxes in several locations.
+This way we hope to help NGOs, social initiatives and others, with completing their ideas. By offering a platform for crowdfunding that is in physical public spaces offering a different more direct connection between projects asking for help and people willing to help.
 
 ##Description
 An open-source screen enabled donation box
