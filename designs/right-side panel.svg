@@ -15,7 +15,7 @@
    id="svg3054"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="side panel.svg">
+   sodipodi:docname="right-side panel.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.13945103"
-     inkscape:cx="450.74823"
-     inkscape:cy="869.03595"
+     inkscape:zoom="1.1156082"
+     inkscape:cx="482.59273"
+     inkscape:cy="52.174291"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -321,6 +321,13 @@
          id="rect8353"
          style="opacity:0.5;fill:#800000;stroke:none" />
     </g>
+    <rect
+       style="opacity:0.3;fill:#000000;stroke:none"
+       id="rect3042"
+       width="612.99213"
+       height="58.81884"
+       x="154.14745"
+       y="674.64343" />
   </g>
   <path
      style="fill:none;stroke:#000000;stroke-width:1.0629921;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#DistanceStart);marker-end:url(#DistanceEnd)"
