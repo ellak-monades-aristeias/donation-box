@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="471.25986"
+   height="1006.2992"
+   id="svg3064"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="door plain.svg">
+  <defs
+     id="defs3066" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.50084508"
+     inkscape:cx="235.62992"
+     inkscape:cy="503.1496"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="mm"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="702"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-nodes="true"
+     inkscape:bbox-paths="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-page="true" />
+  <metadata
+     id="metadata3069">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(1355.2756,433.64456)">
+    <rect
+       transform="scale(-1,1)"
+       style="opacity:0.5;fill:#cccccc;fill-opacity:1;stroke:none"
+       id="rect3091"
+       width="471.25986"
+       height="1006.2992"
+       x="884.01575"
+       y="-433.64456" />
+    <g
+       id="g3290"
+       transform="translate(-1411.973,-265.33537)"
+       style="opacity:0.5;fill:#000000">
+      <path
+         transform="matrix(2.4767174,0,0,2.059586,346.35154,-2334.9196)"
+         d="m -64.016901,1468.3003 c 0,16.6276 -11.20914,30.107 -25.036314,30.107 -13.827175,0 -25.036315,-13.4794 -25.036315,-30.107 0,-16.6276 11.20914,-30.107 25.036315,-30.107 13.827174,0 25.036314,13.4794 25.036314,30.107 z"
+         sodipodi:ry="30.10696"
+         sodipodi:rx="25.036314"
+         sodipodi:cy="1468.3003"
+         sodipodi:cx="-89.053215"
+         id="path3284"
+         style="opacity:0.5;fill:#000000;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       transform="translate(-1411.973,-973.99679)"
+       id="g3294"
+       style="opacity:0.5;fill:#000000">
+      <path
+         sodipodi:type="arc"
+         style="opacity:0.5;fill:#000000;fill-opacity:1;stroke:none"
+         id="path3298"
+         sodipodi:cx="-89.053215"
+         sodipodi:cy="1468.3003"
+         sodipodi:rx="25.036314"
+         sodipodi:ry="30.10696"
+         d="m -64.016901,1468.3003 c 0,16.6276 -11.20914,30.107 -25.036314,30.107 -13.827175,0 -25.036315,-13.4794 -25.036315,-30.107 0,-16.6276 11.20914,-30.107 25.036315,-30.107 13.827174,0 25.036314,13.4794 25.036314,30.107 z"
+         transform="matrix(2.4767174,0,0,2.059586,346.35154,-2334.9196)" />
+    </g>
+    <path
+       sodipodi:type="arc"
+       style="opacity:0.3;fill:#000000;stroke:none"
+       id="path3112"
+       sodipodi:cx="-440"
+       sodipodi:cy="460.5849"
+       sodipodi:rx="42.857143"
+       sodipodi:ry="51.42857"
+       d="m -397.14286,460.5849 a 42.857143,51.42857 0 1 1 -85.71428,0 42.857143,51.42857 0 1 1 85.71428,0 z"
+       transform="matrix(0.82677164,0,0,0.6889764,-608.81891,-247.82709)" />
+  </g>
+</svg>

@@ -1,8 +1,8 @@
 
-(lift, start and go to home position)
+(lift and start spindle)
 N40 G00 Z1.999
 N40 G00 Z9.999 M03
-N40 G00 X0 Y
+
 
 
 (slopes top - parallel )
