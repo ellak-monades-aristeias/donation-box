@@ -3,6 +3,7 @@
     "currency": "EUR",
     "Log": true,
     "Mode": "Debug",
+    "Init Wait time (sec)": 0,
     "_othermodes": "Test,Production"
   },
   "Serial": {
@@ -22,8 +23,8 @@
     
   },
   "Printer": {
-    "enabled": true,
-    "dev": "ttyAMA0",
+    "enabled": false,
+    "dev": "/dev/ttyAMA0",
     "baudrate": 9600,
     "heattime": 255,
     "timeout": 5,
