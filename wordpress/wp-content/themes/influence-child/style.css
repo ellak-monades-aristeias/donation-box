@@ -1358,6 +1358,8 @@ article.entry .entry-content {
   color: #716f6c;
   font-size: 22px;
   line-height: 1.75em;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 article.entry .entry-content strong {
   color: #646360;
@@ -1571,3 +1573,8 @@ body.page-template-templatestemplate-full-no-title-php #primary {
 .ms-skin-light-6 .ms-nav-next, .ms-skin-light-6 .ms-nav-prev {
   border: 13px solid rgba(0, 0, 0, 0.27) !important;
 }
+.article.entry .entry-content {
+  padding: 20px;
+}
+
+
