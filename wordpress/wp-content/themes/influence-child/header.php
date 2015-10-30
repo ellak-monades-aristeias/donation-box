@@ -15,14 +15,16 @@
   <script src="/jquery.min.js"></script>
   <script src="/jquery.bpopup.min.js"></script>
   <script src="/video.js"> </script>
+  <script src="/jquery.plugin.js"></script>
+  <script src="/jquery.countdown.min.js"></script>
   <link href="/pro-bars.min.css" rel="stylesheet" type="text/css" media="all" />
   <link href="/video-js.css" rel="stylesheet" />
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<title><?php wp_title( '|', true, 'right' ); ?></title>
 <style>
 
-#element_to_pop_up, #success_to_pop_up, #error_to_pop_up { display:none; color:#FFF;}
-#element_to_pop_up, #success_to_pop_up, #error_to_pop_up {
+#element_to_pop_up, #success_to_pop_up, #error_to_pop_up, #thankyou_pop_up { display:none; color:#FFF;}
+#element_to_pop_up, #success_to_pop_up, #error_to_pop_up, #thankyou_pop_up {
     min-height: 250px;
     background-color: #FFF;
     border-radius: 10px;
@@ -32,45 +34,21 @@
     min-width: 450px;
     padding: 25px;
 }
-#element_to_pop_up .button {
-    background-color: #2B91AF;
-    border-radius: 10px;
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-    display: inline-block;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #FFF;
+.b-close, .bClose {
+    background-color: #2B91AF;   
+    border-radius: 7px;
+    box-shadow: none;
     cursor: pointer;
-    text-align: center;
-}
-#error_to_pop_up .button.b-close, .button.bClose {
-    border-radius: 7px;
-    box-shadow: none;
     font: bold 131% sans-serif;
     padding: 0px 6px 2px;
     position: absolute;
     right: -7px;
     top: -7px;
 }
-#success_to_pop_up .button.b-close, .button.bClose {
-    border-radius: 7px;
-    box-shadow: none;
-    font: bold 131% sans-serif;
-    padding: 0px 6px 2px;
-    position: absolute;
-    right: -7px;
-    top: -7px;
+#thankyou_pop_up {
+  font-size: 24px;
 }
-#element_to_pop_up .button.b-close, .button.bClose {
-    border-radius: 7px;
-    box-shadow: none;
-    font: bold 131% sans-serif;
-    padding: 0px 6px 2px;
-    position: absolute;
-    right: -7px;
-    top: -7px;
-}
-article.entry .entry-content {
+.article.entry .entry-content {
 padding-left: 20px;
 padding-right: 20px;
 }
@@ -83,15 +61,64 @@ padding-right: 20px;
 }
 </style>
 <script>
-var ShowPopUps = false;
+var ShowPopUps = true;
+/*
+ 
+function startTimer(duration, display) {
+    var start = Date.now(),
+        diff,
+        minutes,
+        seconds;
+    function timer() {
+        // get the number of seconds that have elapsed since 
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
 
+        // does the same job as parseInt truncates the float
+        minutes = (diff / 60) | 0;
+        seconds = (diff % 60) | 0;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds; 
+
+        if (diff <= 0) {
+            // add one second so that the count down starts at the full duration
+            // example 05:00 not 04:59
+            start = Date.now() + 1000;
+        }
+    };
+    // we don't want to wait a full second before the timer starts
+    timer();
+    setInterval(timer, 1000);
+}
+window.onload = function () {
+
+    display = document.querySelector('#time');
+    startTimer(10, display);
+    setTimeout(function(){ document.location.href="/"; }, 10000)
+};
+*/
 $(document).ready(function(){
     $("a").click(function(){
         $('#loading').show();
     });
 });
-
+  function SetTimer() {
+        var oldDateObj = new Date();
+        var newDateObj = new Date(oldDateObj.getTime() + 3*60000);
+        $('#defaultCountdown').countdown({until: newDateObj, layout: '{mn} {snn}', expiryUrl: '/'});  
+  }
+  function ResetTimer() {
+        var oldDateObj = new Date();
+        var newDateObj = new Date(oldDateObj.getTime() + 3*60000);          
+        $('#defaultCountdown').countdown('option',{until: newDateObj, layout: '{mn} {snn}', expiryUrl: '/'});  
+  }
       $(function(){
+        
+        SetTimer();
+        
         var ws;
         var donationdata;
         //Set progressbar
@@ -152,23 +179,24 @@ document.getElementById('email').value = '';
 $('#donationbutton').attr("disabled", "disabled");
 //Redraw progress bar
         SetProgressBar();
+
         }
  
         ws = new WebSocket("ws://donationbox.pi:8888/ws");
         ws.onmessage = function(evt) {
             //logger(evt.data);
             if (evt.data == 'SUCCESS') {
-              if (ShowPopUps) {
+              /*if (ShowPopUps) {
                 $('#success_to_pop_up').bPopup();
-              }  
+              }  */
             } else if (String(evt.data).indexOf('|TOTAL|') > -1) {
                 values = String(evt.data).split('|')
                 //check PID
                 $('#totalamount').html(parseFloat(values[3]).toFixed(2));
             } else if (evt.data == 'ERROR') {
-              if (ShowPopUps) {
+              /*if (ShowPopUps) {
                 $('#error_to_pop_up').bPopup();
-              }  
+              } */ 
             } else {
                 donationdata = evt.data
                 currency = String(evt.data).substring(String(evt.data).length - 3, String(evt.data).length)
@@ -191,9 +219,6 @@ $('#donationbutton').attr("disabled", "disabled");
                     $('#donationvalue_pop').html('You have inserted ' + parseFloat(donationdata).toFixed(2) + '<br> but you must first select a project to donate that amount to...');
 		    $('#donationbutton').attr("disabled", "disabled");
                 }
-                if (ShowPopUps) {
-                  $('#element_to_pop_up').bPopup();
-                }
             }
         };
         ws.onclose = function(evt) {
@@ -215,22 +240,34 @@ $('#donationbutton').attr("disabled", "disabled");
         $("#donationbutton").click(function(){
           donate();
           if (ShowPopUps) {
-            var bPopup = $('#element_to_pop_up').bPopup();
-	          bPopup.close();
-	        }
+            var bPopup = $('#thankyou_pop_up').bPopup();      
+            setTimeout(function(){ document.location.href="/"; }, 3000)
+          }  
         });
         $("#thebutton").click(function(){
           sender();
         });
       });
-      
+      $(document).scroll( function(){
+        var oldDateObj = new Date();
+        var newDateObj = new Date(oldDateObj.getTime() + 3*60000);          
+        $('#defaultCountdown').countdown('option',{until: newDateObj, layout: '{mn} {snn}', expiryUrl: '/'});  
+      });
+      /*
+      $(document).on("pagecreate",".single-post",function(){
+        $(document).on("scrollstart",function(){
+           ResetTimer();
+        });                       
+      });*/
+
       
 </script>
 <script>
     // $ is assigned to jQuery
-    ;(function($) {
+    ;(function($) {    	
          // DOM Ready
         $(function() {
+               
             // Binding a click event
             // From jQuery v.1.7.0 use .on() instead of .bind()
             $('#my-button').on('click', function(e) {
@@ -243,7 +280,7 @@ $('#donationbutton').attr("disabled", "disabled");
     })(jQuery);
         $('element_to_pop_up').bPopup({
             contentContainer:'.content',
-        });
+        });     
 </script>   
 	<?php wp_head(); ?>
 </head>
