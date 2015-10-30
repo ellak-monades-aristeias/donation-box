@@ -34,12 +34,11 @@ config = json.load(json_data)
 json_data.close()
 logging.basicConfig(filename='wsServer.log', level=logging.DEBUG, format='%(levelname)s %(asctime)s: %(message)s')
 logging.debug('wsServer started')
-#wait at start up for mySQL to load
-time.sleep(60)
 
 coin = 0
 #See the config.json file for the configuration
 curr = config["General"]["currency"]
+init_wait_time = config["General"]["Init Wait time (sec)"]
 clients = []
 dbserver = config["Database"]["server"]
 dbuser = config["Database"]["username"]
@@ -53,15 +52,19 @@ pr_timeout = config["Printer"]["timeout"]
 pr_feedlines = config["Printer"]["feedlines"]
 pr_heattime = config["Printer"]["heattime"]
 
-if pr_enabled == true:
+#wait at start up for mySQL to load
+time.sleep(init_wait_time)
+
+if pr_enabled:
   printer = Adafruit_Thermal(pr_dev, pr_baudrate, timeout=pr_timeout)
 
-def Th_print(currency,value,name,email,prname):
-  if (pr_enabled == 'false'):
+def Th_print(currency,value,name,email,prname,prid,donationid):
+  if not pr_enabled:
     logging.debug('Thermal printer is disabled')
     return
     
   printer.begin(pr_heattime) 
+  printer.setTimes(0,0) #print as fast as possible
   logging.debug('Printing donation to thermal printer')  
   printer.boldOn()
   printer.println('THANK YOU')
@@ -74,7 +77,8 @@ def Th_print(currency,value,name,email,prname):
   printer.println(' project')
   printer.println('Your donation registered')
   if email != '':
-    printer.println('with '.email)
+    printer.print('with ')
+    printer.print(email)
      
   printer.feed(pr_feedlines)
 
@@ -138,7 +142,7 @@ def QueryDB():
     try:
       #print "Query DB...";
       sql = "SELECT timeinserted, value, currency FROM coinacceptor WHERE timeinserted > %s ORDER BY timeinserted DESC";
-      logging.debug('RUS SQL: SELECT timeinserted, value, currency FROM coinacceptor WHERE timeinserted > %s ORDER BY timeinserted DESC', LastTime)
+      #logging.debug('RUN SQL: SELECT timeinserted, value, currency FROM coinacceptor WHERE timeinserted > %s ORDER BY timeinserted DESC', LastTime)
       cursor.execute(sql,LastTime);
 
       data = cursor.fetchone();
@@ -200,7 +204,7 @@ def InsertDonation(currency,value,name,email,public, prname, prid):
     for client in clients:
       client.write_message("SUCCESS")
       logging.info('Data written successfuly')
-    
+  return donationid;  
     
 def GetProjectTotal(pid):
   dbConn = MySQLdb.connect(dbserver,dbuser,dbpass,dbname) or die ("could not connect to database")
@@ -241,8 +245,8 @@ def processdonation(msg):
   doncurr = dondata[l-3:]
   #print donvalue
   #print doncurr
-  InsertDonation(doncurr,donvalue,name,email,public,prname,prid)
-  Th_print(doncurr,donvalue,name,email,prname)
+  donationid = InsertDonation(doncurr,donvalue,name,email,public,prname,prid)
+  Th_print(doncurr,donvalue,name,email,prname,prid,donationid)
 
 def processmsg(msg):
   logging.debug('Process message: %s', msg)
