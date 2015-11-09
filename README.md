@@ -58,4 +58,10 @@ The code for the Arduino to read the coin acceptor will be uploaded soon...
 * Load home page
 
 
+##Developers
+More detailed [Developers Manual](DevelopersManual.md).
+
+##Users
+More detailed [Users Manual](UserManual.md).
+
 Developed by CommonsLab
