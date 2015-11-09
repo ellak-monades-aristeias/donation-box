@@ -1,6 +1,8 @@
 donation-box
 ============
 
+open source design/ open source hardware/ open source software
+
 Note: The process of how to set up your own donation box is still under heavy development and the documentation not complete or detailed enough yet. If you are anyhow interested in building and setting up your own box and you can't wait, don't hesitate to contact us.
 
 ##Idea
