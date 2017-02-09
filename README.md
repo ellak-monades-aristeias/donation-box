@@ -58,8 +58,6 @@ The code for the Arduino to read the coin acceptor will be uploaded soon...
 * Install Firefox
 * Connect to WiFi running on the Pi.
 * Load home page
-
-
 ##Developers
 More detailed [Developers Manual](DevelopersManual.md).
 
